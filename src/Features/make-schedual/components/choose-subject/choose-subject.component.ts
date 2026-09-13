@@ -188,10 +188,6 @@ export class ChooseSubjectComponent implements OnInit {
   }
 
   close() {
-    this.scrollToTop();
-    this.resetFilters();
-    this.resetPagination();
-    this.isAdvancedSearchOpen.set(false);
     this.chooseSubjectService.close();
   }
 }
