@@ -1,0 +1,310 @@
+<!-- Header -->
+<div
+  class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest sticky top-0 bg-background z-20"
+>
+  <h2 class="text-2xl font-bold text-on-surface">اختيار مادة دراسية</h2>
+  <button
+    class="text-on-surface-variant hover:text-error transition-colors outline-none cursor-pointer"
+    (click)="close()"
+  >
+    <span class="material-symbols-outlined">close</span>
+  </button>
+
+  @if (isShowScrollTop()) {
+    <button
+      type="button"
+      (click)="scrollToTop()"
+      class="absolute cursor-pointer top-30 left-6 z-50 flex w-12 h-12 items-center justify-center rounded-full bg-primary text-on-primary shadow-lg hover:bg-primary-container hover:shadow-xl active:scale-95 transition-all duration-300 outline-none"
+    >
+      <span class="material-symbols-outlined"><i class="fa-solid fa-up-long"></i></span>
+    </button>
+  }
+</div>
+
+<!-- Body -->
+<div class="p-6 bg-background">
+  <form [formGroup]="filterForm" class="mb-6">
+    <!-- صف البحث الرئيسي وزر الفلتر -->
+    <div class="flex gap-3 items-center">
+      <div class="relative flex-1">
+        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input
+          [formControl]="filterForm.controls.searchQuery"
+          class="w-full pr-12 pl-4 py-3 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none text-base bg-surface shadow-sm transition-all"
+          placeholder="ابحث عن اسم المادة أو الرمز..."
+          type="text"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="flex items-center justify-center p-3 rounded-xl border transition-all shadow-sm outline-none w-12.5 h-12.5"
+        [class]="
+          isAdvancedSearchOpen()
+            ? 'bg-primary text-on-primary border-primary'
+            : 'bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-container-high'
+        "
+        (click)="isAdvancedSearchOpen.update((curr) => !curr)"
+      >
+        <i class="fa-solid fa-filter material-symbols-outlined"></i>
+      </button>
+    </div>
+  </form>
+
+  <!-- Data List (كما هو تماماً لا تغيير فيه) -->
+  <div class="overflow-y-auto max-h-full space-y-3 custom-scrollbar pr-1">
+    <form [formGroup]="filterForm">
+      <div
+        class="overflow-hidden transition-all duration-500"
+        [class]="isAdvancedSearchOpen() ? 'max-h-200 opacity-100 mt-4' : 'max-h-0 opacity-0'"
+      >
+        <div
+          class="p-5 bg-surface-container-low border border-outline-variant/40 rounded-xl shadow-inner"
+        >
+          <h3 class="text-sm font-bold text-primary mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-filter text-[18px]"></i>
+            خيارات البحث المتقدم
+          </h3>
+
+          <!-- شبكة المدخلات (Grid) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- المدرس -->
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">المدرس</label>
+              <input
+                [formControl]="filterForm.controls.teacher"
+                type="text"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+                placeholder="اسم المدرس..."
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">وقت البداية</label>
+              <select
+                [formControl]="filterForm.controls.startTime"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+              >
+                <option value="">الكل</option>
+                <option value="8.30 AM">8.30 AM</option>
+                <option value="10.00 AM">10.00 AM</option>
+                <option value="11.30 AM">11.30 AM</option>
+                <option value="1.00 PM">1.00 PM</option>
+                <option value="2.30 PM">2.30 PM</option>
+              </select>
+            </div>
+
+            <!-- الأيام -->
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">الأيام</label>
+              <select
+                [formControl]="filterForm.controls.days"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+              >
+                <option value="">الكل</option>
+                <option value="حد ثل">أحد، ثلاثاء</option>
+                <option value="ثن ربع">اثنين, أربعاء</option>
+                <option value="حد">أحد</option>
+                <option value="ثن">اثنين</option>
+                <option value="ثل">ثلاثاء</option>
+                <option value="ربع">اربعاء</option>
+                <option value="خمس">خميس</option>
+                <option value="سبت">سبت</option>
+              </select>
+            </div>
+
+            <!-- عدد الساعات -->
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">الساعات</label>
+              <select
+                [formControl]="filterForm.controls.hours"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+              >
+                <option value="">الكل</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="9">9</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">الكلية</label>
+              <select
+                [formControl]="filterForm.controls.Faculty"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+              >
+                <option value="0">الكل</option>
+                <option value="1">كلية الشريعة</option>
+                <option value="2">كلية الحقوق</option>
+                <option value="4">كلية العلوم</option>
+                <option value="5">كلية الاعمال</option>
+                <option value="7">كلية الهندسة</option>
+                <option value="9">كلية الامير الحسين بن عبدالله لتكنولوجيا المعلومات</option>
+                <option value="10">كلية الاميرة سلمى بنت عبدالله للتمريض</option>
+                <option value="11">كلية العلوم التربوية</option>
+                <option value="3">كلية الآداب والعلوم الانسانية</option>
+                <option value="17">كلية اللغات الاجنبية</option>
+                <option value="18">كلية العلوم الطبية التطبيقية</option>
+                <option value="6">كلية بيت الحكمة للعلوم السياسية والدراسات الدولية</option>
+                <option value="8">كلية علوم الارض والبيئة</option>
+                <option value="49">كلية التعليم التقني</option>
+                <option value="19">كلية التربية البدنية وعلوم الرياضة</option>
+                <option value="14">المعهد العالي للدراسات الاسلامية</option>
+                <option value="99">مركز اللغـــــات</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-on-surface mb-1.5">القسم</label>
+              <select
+                [formControl]="filterForm.controls.Section"
+                class="w-full px-3 py-2 rounded-lg border border-outline-variant/60 focus:ring-2 focus:ring-primary outline-none text-sm bg-surface transition-all"
+              >
+                <option value="0">الكل</option>
+                @for (section of selectedFacultySections(); track $index) {
+                  <option [value]="section.value">{{ section.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- أزرار الإجراءات للبحث المتقدم -->
+          <div class="mt-5 flex justify-end gap-3 pt-4 border-t border-outline-variant/20">
+            <button
+              type="button"
+              (click)="resetFilters()"
+              class="px-5 py-2 text-sm font-semibold rounded-lg text-on-surface-variant bg-white transition-colors hover:scale-105 hover:bg-white/60 cursor-pointer"
+            >
+              إعادة ضبط
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    @for (subject of subjects(); track $index) {
+      <!-- ... بطاقة المادة ... -->
+      <button
+        class="group p-5 w-full text-right bg-surface border border-outline-variant rounded-xl hover:border-primary hover:shadow-md cursor-pointer transition-all flex flex-col gap-3 relative overflow-hidden"
+        (click)="selectSubject(subject)"
+      >
+        <!-- Top Row: Name, Code, and Add Icon -->
+
+        <div class="flex justify-between items-start gap-4">
+          <div>
+            <h3 class="font-bold text-on-surface text-lg mb-1">{{ subject.name }}</h3>
+
+            <div class="flex items-center gap-2 text-sm">
+              <span class="bg-primary/10 text-primary px-2 py-0.5 rounded font-bold" dir="ltr">{{
+                subject.code
+              }}</span>
+
+              <span class="text-on-surface-variant">شعبة: {{ subject.section }}</span>
+            </div>
+          </div>
+
+          <i
+            class="fa-solid fa-plus material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors text-3xl"
+          ></i>
+        </div>
+
+        <!-- Bottom Row: Information Chips -->
+
+        <div class="flex flex-wrap gap-2 text-xs text-on-surface-variant mt-2">
+          <!-- Time -->
+
+          <div
+            class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-outline-variant/30"
+          >
+            <i class="fa-solid fa-clock material-symbols-outlined text-[16px] text-primary"></i>
+
+            <span dir="ltr" class="font-medium">{{ subject.to }} - {{ subject.from }}</span>
+          </div>
+
+          <!-- Days -->
+
+          <div
+            class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-outline-variant/30"
+          >
+            <i class="fa-solid fa-calendar material-symbols-outlined text-[16px] text-primary"></i>
+
+            <span class="font-medium">{{ subject.days }}</span>
+          </div>
+
+          <!-- Teacher -->
+
+          <div
+            class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-outline-variant/30"
+          >
+            <i class="fa-solid fa-user material-symbols-outlined text-[16px] text-primary"></i>
+
+            <span class="font-medium">{{ subject.teacher }}</span>
+          </div>
+
+          <!-- Room -->
+
+          <div
+            class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-outline-variant/30"
+          >
+            <i class="fa-solid fa-house material-symbols-outlined text-[16px] text-primary"></i>
+
+            <span dir="ltr" class="font-medium">{{ subject.room }}</span>
+          </div>
+
+          <!-- Hours -->
+
+          <div
+            class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-lg border border-outline-variant/30"
+          >
+            <i
+              class="fa-solid fa-dollar-sign material-symbols-outlined text-[16px] text-primary"
+            ></i>
+
+            <span class="font-medium">{{ subject.hours }} ساعات</span>
+          </div>
+        </div>
+
+        <!-- Note (If exists) -->
+
+        @if (subject.note) {
+          <div class="mt-1 text-xs text-secondary italic border-t border-outline-variant/30 pt-2">
+            * {{ subject.note }}
+          </div>
+        }
+      </button>
+    } @empty {
+      <div
+        class="flex flex-col items-center justify-center py-12 text-on-surface-variant text-center opacity-70"
+      >
+        <i class="fa-regular fa-circle-xmark material-symbols-outlined text-5xl mb-2"></i>
+        <p>لا توجد مواد مطابقة للبحث</p>
+      </div>
+    }
+
+    <!-- Infinite Scroll Trigger -->
+    <div (appIsVisable)="loadMoreSubjects()" class="h-10 w-full"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div
+  class="p-4 border-t border-outline-variant bg-surface-container-lowest flex justify-end sticky bottom-0 bg-background z-20"
+>
+  <button
+    class="px-6 py-2 rounded-lg font-semibold text-on-surface-variant hover:bg-surface-container-high transition-colors cursor-pointer"
+    (click)="close()"
+  >
+    إلغاء
+  </button>
+</div>
+
+<div
+  class="fixed inset-0 -z-1"
+  (click)="$event.stopPropagation(); chooseSubjectService.close()"
+></div>

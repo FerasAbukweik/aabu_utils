@@ -1,0 +1,67 @@
+<div class="flex items-center gap-4">
+  <span class="text-2xl font-bold text-primary pr-6">{{ projectName }}</span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+  <nav class="flex gap-4">
+    @for (path of paths; track $index) {
+      <a
+        [routerLink]="[path.link]"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [class]="
+          rla.isActive
+            ? 'text-primary border-b-2 border-primary text-lg font-semibold'
+            : 'text-on-surface-variant hover:text-primary transition-colors text-lg font-semibold'
+        "
+        >{{ path.title }}</a
+      >
+    }
+  </nav>
+</div>
+
+<div class="flex items-center gap-4 pl-3 md:pl-6" dir="ltr">
+  <div class="md:hidden left-25 flex items-center">
+    <button
+      class="aspect-square w-9 rounded-lg cursor-pointer flex items-center justify-center"
+      [class]="isShowMenu() ? 'bg-primary/10' : ''"
+      (click)="toggleMenu()"
+    >
+      <i class="fa-solid fa-bars text-primary scale-110"></i>
+    </button>
+
+    @if (isShowMenu()) {
+      <div
+        class="absolute top-full mt-3 left-0 w-56 bg-surface border border-outline-variant rounded-xl shadow-lg z-50 overflow-hidden"
+      >
+        <nav class="flex flex-col p-2">
+          @for (path of paths; track $index) {
+            <a
+              [routerLink]="[path.link]"
+              routerLinkActive
+              #rla="routerLinkActive"
+              (click)="closeMenu()"
+              [class]="
+                rla.isActive
+                  ? 'text-primary bg-primary/10 font-semibold px-4 py-3 rounded-lg text-base'
+                  : 'text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors px-4 py-3 rounded-lg text-base font-medium'
+              "
+              >{{ path.title }}</a
+            >
+          }
+        </nav>
+      </div>
+    }
+  </div>
+  <span
+    class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 duration-150"
+    ><i class="fa-solid fa-calendar-minus text-primary scale-125"></i
+  ></span>
+  <span
+    class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 duration-150"
+    ><i class="fa-solid fa-bell text-primary scale-125"></i
+  ></span>
+</div>
+
+@if (isShowMenu()) {
+  <div class="fixed inset-0 -z-1" (click)="closeMenu()"></div>
+}

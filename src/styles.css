@@ -1,3 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@theme {
+  /* Base & Layout backgrounds */
+  --color-background: #faf8ff;
+  --color-surface: #faf8ff;
+
+  /* Text colors */
+  --color-on-surface: #131b2e;
+  --color-on-surface-variant: #464555;
+
+  /* Primary brand colors */
+  --color-primary: #3525cd;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #4f46e5;
+
+  /* Component backgrounds & borders */
+  --color-surface-container-low: #f2f3ff;
+  --color-outline-variant: #c7c4d8;
+
+  /* Status/Action colors */
+  --color-error: #ba1a1a;
+}
+
+* {
+  scrollbar-width: none;
+}

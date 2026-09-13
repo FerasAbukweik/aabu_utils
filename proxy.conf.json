@@ -1,0 +1,10 @@
+{
+  "/aabu-api": {
+    "target": "https://web2.aabu.edu.jo",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/aabu-api": ""
+    }
+  }
+}
