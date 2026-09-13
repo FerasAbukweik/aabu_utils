@@ -1,3 +1,3 @@
 export abstract class URLs {
-  static main = '/aabu-api/nara/reg/MatProgram';
+  static main = '/api/proxy?path=/nara/reg/MatProgram';
 }
