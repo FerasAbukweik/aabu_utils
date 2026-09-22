@@ -1,59 +1,78 @@
-# University
+# Al Albayt Utils
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+A set of web utilities for students at **Al al-Bayt University**, built with Angular. It pulls live course-offering data from the university's registration system and wraps it in two focused tools: an interactive schedule builder and a GPA calculator.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### 📅 Weekly Schedule Builder (`/make-schedual`)
+- Browse available course sections pulled live from the university's registration system (via a serverless proxy).
+- Search by course name or code, with advanced filters for teacher, start time, days, credit hours, faculty (كلية), and department (قسم).
+- Infinite-scroll results list for fast browsing of large course catalogs.
+- Add sections to a personal weekly schedule and remove them with one click.
+- Live summary of total registered credit hours and number of on-campus attendance days.
 
-```bash
-ng serve
+### 🎓 GPA Calculator (`/gpa-calculator`)
+- Add/remove any number of courses with name, credit hours, and letter grade.
+- Enter your current cumulative GPA and completed hours to calculate a running cumulative average.
+- Built-in support for **repeated courses**: mark a course's previous grade and the calculator automatically applies university rules (keeping the higher of the two attempts and adjusting cumulative hours/points accordingly).
+- Instant semester GPA and cumulative GPA with a status label (ضعيف / مقبول / جيد / جيد جدا / ممتاز).
+- Academic tips and a one-click "clear all" reset.
+
+## Tech Stack
+
+- **Angular 22** (standalone components, signals, reactive forms)
+- **Tailwind CSS 4** for styling
+- **Vitest** for unit testing
+- **Vercel** serverless function (`api/proxy.js`) to proxy requests to the university's registration backend and avoid CORS/mixed-content issues in production
+- RTL (Arabic) layout by default
+
+## Project Structure
+
+```
+src/
+├── Core/               # Constants, DTOs, HTTP interceptors, and API/client services
+├── Features/
+│   ├── make-schedual/   # Schedule builder feature + "choose subject" modal
+│   └── gpa-calculator/  # GPA calculator feature
+├── Layout/              # App shell: top navbar + main layout
+└── shared/              # Reusable directives (e.g. infinite-scroll visibility detector)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Getting Started
 
-## Code scaffolding
+### Prerequisites
+- Node.js and npm
+- Angular CLI (`npm i -g @angular/cli`) — optional, `npx` works too
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### Installation
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+### Development server
 ```bash
-ng generate --help
+npm start
 ```
+Navigate to `http://localhost:4200/`. The app reloads automatically on file changes.
 
-## Building
+> In development, API calls to the university's system are routed through `proxy.conf.json`. In production (Vercel), they're routed through the `api/proxy.js` serverless function defined in `vercel.json`.
 
-To build the project run:
-
+### Build
 ```bash
-ng build
+npm run build
 ```
+Production artifacts are output to `dist/`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
+### Running unit tests
 ```bash
-ng test
+npm test
 ```
+Runs unit tests via [Vitest](https://vitest.dev/).
 
-## Running end-to-end tests
+## Deployment
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The project is configured for zero-config deployment on **Vercel**: `vercel.json` rewrites `/api/*` to the serverless proxy and everything else to `index.html` for client-side routing.
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For more on the Angular CLI, see the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
