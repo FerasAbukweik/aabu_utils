@@ -4,20 +4,6 @@ Build a weekly course schedule and estimate semester and cumulative GPA in an Ar
 
 [![Angular 22](https://img.shields.io/badge/Angular-22-DD0031)](https://angular.dev/)
 
-## Demo and screenshots
-
-<!-- TODO: add public live demo URL -->
-Hosted demo pending.
-
-Capture these views using demo data:
-
-- a weekly schedule with selected sections and attendance-day totals
-  <!-- TODO: add screenshot of a weekly schedule with selected sections and attendance-day totals -->
-- the course filter panel showing faculty and department
-  <!-- TODO: add screenshot of the course filter panel showing faculty and department -->
-- the GPA calculator showing a repeated course and the cumulative result
-  <!-- TODO: add screenshot of the GPA calculator showing a repeated course and the cumulative result -->
-
 ## Key features
 
 **Schedule planning**
@@ -135,13 +121,6 @@ vercel.json                   # Function and SPA routing
 
 The browser calls the same-origin `/api/proxy` route for course offerings.
 GPA calculations run entirely in the browser. The project has no Swagger UI.
-
-## Known limitations and roadmap
-
-- Align Angular development routing with the production proxy path.
-- Add focused tests for time conflicts and repeat-grade calculations.
-- Course search depends on the university feed.
-- Schedule selections are per browser. GPA values are planning estimates.
 
 ## Author
 
